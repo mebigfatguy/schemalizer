@@ -1,0 +1,7 @@
+version.properties
+classes
+target
+.svn
+lib
+TEST-*
+
