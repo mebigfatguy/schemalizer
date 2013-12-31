@@ -119,6 +119,7 @@
 			<classpath>
     			<pathelement location="${test_classes.dir}"/>
     			<pathelement location="${classes.dir}"/>
+                <pathelement location="${lib.dir}/junit-${junit.version}.jar"/>
     			<pathelement path="schemalizer.classpath"/>
   			</classpath>
       		<formatter type="xml"/>
