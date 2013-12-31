@@ -153,7 +153,7 @@
 				<attribute name="Export-Package" value="com.mebigfatguy.schemalizer,com.mebigfatguy.schemalizer.commandline"/>
 			</manifest>
 		</jar>	
-		<jar destfile="${target.dir}/${schemalizer.jar}" update="true">
+		<jar destfile="${target.dir}/schemalizer-${schemalizer.version}.jar" update="true">
 			<fileset dir="${test_classes.dir}">
 				<include name="**/*.class"/>
 			</fileset>
