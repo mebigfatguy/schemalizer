@@ -28,11 +28,10 @@
 	<property name="test_classes.dir" value="${target.dir}/tests"/>
 	<property name="classes.dir" value="${target.dir}/classes"/>
 	<property name="javadoc.dir" value="${target.dir}/javadoc"/>
-    <property name="sonatype.dir" value="${user.home}/.schemalizer-${schemalizer.version}-sonatype" />
-
 	<property name="schemalizer.debug" value="true"/>
 	
     <property name="schemalizer.version" value="0.4.0"/>
+    <property name="sonatype.dir" value="${user.home}/.schemalizer-${schemalizer.version}-sonatype" />
 
     <property file="build.properties"/> 
     <property file="version.properties"/>
@@ -101,22 +100,6 @@
 	</target>
 	
 	<target name="test" depends="build, build_test" description="run the the junit tests">
-		<junit haltonerror="off" haltonfailure="off">
-			<classpath>
-    			<pathelement location="${test_classes.dir}"/>
-    			<pathelement location="${classes.dir}"/>
-		        <pathelement location="${lib.dir}/xml-apis-${xml-apis.version}.jar"/>
-		        <pathelement location="${lib.dir}/xercesImpl-${xercesImpl.version}.jar"/>
-		        <pathelement location="${lib.dir}/junit-${junit.version}.jar"/>
-  			</classpath>
-      		<formatter type="plain"/>
-      		<batchtest>
-      			<fileset dir="${test_classes.dir}" includes="**/*Test.class"/>
-      		</batchtest>
-      	</junit>
-	</target>
-	
-	<target name="test_report" depends="build, build_test" description="run the the junit tests">
 		<!-- If you get transformation errors, add xalan.jar to your ant lib directory -->
 		<junit haltonerror="off" haltonfailure="off">
 			<classpath>
@@ -204,4 +187,40 @@
         </javadoc>
     </target>
 	
+    <target name="release" depends="clean, jar, srcjar, javadoc" description="prepares everything for a release"/>
+
+    <target name="sonatype" depends="release" description="prepare an artifact bundle for sonatype">
+        <mkdir dir="${sonatype.dir}"/>
+        <copy todir="${sonatype.dir}" file="${target.dir}/schemalizer-${schemalizer.version}.jar"/>
+        <copy tofile="${sonatype.dir}/schemalizer-${schemalizer.version}-sources.jar" file="${target.dir}/schemalizer-${schemalizer.version}-sources.jar"/>
+        <jar destfile="${sonatype.dir}/schemalizer-${schemalizer.version}-javadoc.jar" basedir="${basedir}" includes="${target.dir}/javadoc/**"/>
+        <copy tofile="${sonatype.dir}/schemalizer-${schemalizer.version}.pom" file="${basedir}/pom.xml"/>
+        
+        <exec executable="gpg">
+            <arg value="-abi" />
+            <arg value="${sonatype.dir}/schemalizer-${schemalizer.version}.jar" />
+        </exec>
+        <exec executable="gpg">
+            <arg value="-abi" />
+            <arg value="${sonatype.dir}/schemalizer-${schemalizer.version}.pom" />
+        </exec>
+        <exec executable="gpg">
+            <arg value="-abi" />
+            <arg value="${sonatype.dir}/schemalizer-${schemalizer.version}-sources.jar" />
+        </exec>        
+        <exec executable="gpg">
+            <arg value="-abi" />
+            <arg value="${sonatype.dir}/schemalizer-${schemalizer.version}-javadoc.jar" />
+        </exec>
+        <jar destfile="${sonatype.dir}/bundle.jar" basedir="${sonatype.dir}" includes="schemalizer*">
+        </jar>
+        <echo message="" />
+        <echo message="" />
+        <echo message="====================================================================================================================================" />
+        <echo message="sonatype update bundle produced at ${sonatype.dir}/bundle.jar" />
+        <echo message="upload this jar at https://oss.sonatype.org" />
+        <echo message="" />
+        <echo message="see link for details-> https://docs.sonatype.org/display/Repository/Uploading+3rd-party+Artifacts+to+The+Central+Repository" />
+        <echo message="====================================================================================================================================" />
+    </target>
 </project>
