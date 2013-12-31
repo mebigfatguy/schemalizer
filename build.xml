@@ -1,6 +1,6 @@
 <!--
 /*
- * Copyright 2005-2006 Dave Brosius
+ * Copyright 2005-2014 Dave Brosius
  *
  * Licensed under the GNU Lesser General Public License (the "License");
  * you may not use this file except in compliance with the License.
@@ -27,9 +27,11 @@
 	<property name="report.dir" value="${target.dir}/reports"/>
 	<property name="test_classes.dir" value="${target.dir}/tests"/>
 	<property name="classes.dir" value="${target.dir}/classes"/>
+    <property name="sonatype.dir" value="${user.home}/.schemalizer-${schemalizer.version}-sonatype" />
+
 	<property name="schemalizer.debug" value="true"/>
 	
-    <property name="schemalizer.version" value="0.40"/>
+    <property name="schemalizer.version" value="0.4.0"/>
 
     <property file="build.properties"/> 
     <property file="version.properties"/>
@@ -162,7 +164,7 @@
 	</target>
 
 	<target name="srcjar" description="create a src jar distribution">
-		<jar destfile="${target.dir}/schemalizer-src-${schemalizer.version}.jar">
+		<jar destfile="${target.dir}/schemalizer-${schemalizer.version}-sources.jar">
 			<fileset dir="${src.dir}">
 				<include name="**/*.java"/>
 			</fileset>
@@ -171,7 +173,7 @@
 				<attribute name="Version" value="${schemalizer.version}"/>
 			</manifest>
 		</jar>	
-		<jar destfile="${target.dir}/schemalizer-src-${schemalizer.version}.jar" update="true">
+		<jar destfile="${target.dir}/schemalizer-${schemalizer.version}-sources.jar" update="true">
 			<fileset dir="${test.dir}">
 				<include name="**/*.java"/>
 			</fileset>
