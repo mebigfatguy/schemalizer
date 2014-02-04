@@ -27,6 +27,8 @@ import java.util.Set;
 
 public class TypeGraph implements SchemalizerConstants
 {
+    private static final Integer ZERO = Integer.valueOf(0);
+    
 	private final String elementName;
 	private boolean isAmbiguous;
 	private final Set<String> requiredAttributes;
@@ -298,7 +300,7 @@ public class TypeGraph implements SchemalizerConstants
 						if (max == null)
 						{
 							maxOccurs.put(lastEl, Integer.valueOf(occurCnt));
-							minOccurs.put(lastEl, Integer.valueOf(0));
+							minOccurs.put(lastEl, ZERO);
 						}
 						else
 						{
@@ -325,7 +327,7 @@ public class TypeGraph implements SchemalizerConstants
 				Map.Entry<String,Integer> entry = it.next();
 				String el = entry.getKey();
 				if (!ss.contains(el))
-					minOccurs.put(el, Integer.valueOf(0));
+					minOccurs.put(el, ZERO);
 			}
 		}
 	}
