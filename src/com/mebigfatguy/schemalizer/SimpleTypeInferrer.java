@@ -22,6 +22,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
@@ -280,7 +281,7 @@ public class SimpleTypeInferrer implements SchemalizerConstants
 	
 	class LanguageValidator extends BaseValidator
 	{
-		private final Set<String> languages = new HashSet<String>(Arrays.asList(Locale.getISOLanguages()));
+		private final Set<String> languages = Collections.unmodifiableSet(new HashSet<String>(Arrays.asList(Locale.getISOLanguages())));
 		
 		@Override
 		public String toString()
