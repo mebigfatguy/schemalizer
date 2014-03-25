@@ -102,12 +102,14 @@
 	
 	<target name="test" depends="build, build_test" description="run the the junit tests">
 		<!-- If you get transformation errors, add xalan.jar to your ant lib directory -->
-		<junit haltonerror="off" haltonfailure="off">
+		<junit haltonerror="off" haltonfailure="off" fork="true">
 			<classpath>
     			<pathelement location="${test_classes.dir}"/>
-    			<pathelement location="${classes.dir}"/>
-                <pathelement location="${lib.dir}/junit-${junit.version}.jar"/>
-    			<pathelement path="schemalizer.classpath"/>
+		        <pathelement location="${lib.dir}/xml-apis-${xml-apis.version}.jar"/>
+		        <pathelement location="${lib.dir}/xercesImpl-${xercesImpl.version}.jar"/>
+		        <pathelement location="${lib.dir}/junit-${junit.version}.jar"/>
+		        <pathelement location="${lib.dir}/hamcrest-core-${hamcrest-core.version}.jar"/>
+		        <pathelement location="${classes.dir}" />
   			</classpath>
       		<formatter type="xml"/>
       		<batchtest todir="${report.dir}">
