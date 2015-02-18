@@ -1,5 +1,5 @@
 /*
- * Copyright 2005-2014 Dave Brosius
+ * Copyright 2005-2015 Dave Brosius
  *
  * Licensed under the GNU Lesser General Public License (the "License");
  * you may not use this file except in compliance with the License.
