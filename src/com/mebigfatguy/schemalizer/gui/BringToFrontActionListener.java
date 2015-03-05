@@ -34,14 +34,12 @@ class BringToFrontActionListener implements ActionListener
         try
         {
 	        String title = ae.getActionCommand();
-	        JInternalFrame[] frames = desktop.getAllFrames();
-	        for (int i = 0; i < frames.length; i++)
+	        for (JInternalFrame frame : desktop.getAllFrames())
 	        {
-	            JInternalFrame f = frames[i];
-	            if (f.getTitle().equals(title))
+	            if (frame.getTitle().equals(title))
 	            {
-	                f.toFront();
-	                f.setSelected(true);
+	            	frame.toFront();
+	            	frame.setSelected(true);
 	            	break;
 	            }
 	        }
