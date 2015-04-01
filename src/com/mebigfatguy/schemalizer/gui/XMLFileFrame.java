@@ -176,18 +176,11 @@ public class XMLFileFrame extends JInternalFrame
 	protected void saveFile()
 		throws IOException
 	{
-		PrintWriter pw = null;
-		try
+		try (PrintWriter pw = new PrintWriter(new BufferedWriter( new FileWriter(source))))
 		{
-			pw = new PrintWriter(new BufferedWriter( new FileWriter(source)));
 			pw.print(editor.getText());
 			pw.flush();
 			changed = false;
-		}
-		finally
-		{
-			if (pw != null)
-				pw.close();
 		}
 	}
 	
