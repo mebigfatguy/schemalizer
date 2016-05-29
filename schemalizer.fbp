@@ -1,7 +1,7 @@
 <Project projectName="schemalizer">
-  <Jar>./target/classes</Jar>
-  <AuxClasspathEntry>./lib/junit-4.11.jar</AuxClasspathEntry>
-  <AuxClasspathEntry>./lib/xercesImpl-2.11.0.jar</AuxClasspathEntry>
-  <AuxClasspathEntry>./lib/xml-apis-2.0.2.jar</AuxClasspathEntry>
-  <SrcDir>./src</SrcDir>
+  <Jar>././target/classes</Jar>
+  <AuxClasspathEntry>././lib/xercesImpl-2.11.0.jar</AuxClasspathEntry>
+  <AuxClasspathEntry>./lib/junit-4.12.jar</AuxClasspathEntry>
+  <AuxClasspathEntry>./lib/xml-apis-1.4.01.jar</AuxClasspathEntry>
+  <SrcDir>././src</SrcDir>
 </Project>
