@@ -21,30 +21,24 @@ import java.awt.event.ActionListener;
 import javax.swing.JDesktopPane;
 import javax.swing.JInternalFrame;
 
-class BringToFrontActionListener implements ActionListener
-{
-	private JDesktopPane desktop;
-	public BringToFrontActionListener(JDesktopPane dtop)
-	{
-		desktop = dtop;
-	}
-	
-    public void actionPerformed(ActionEvent ae)
-    {
-        try
-        {
-	        String title = ae.getActionCommand();
-	        for (JInternalFrame frame : desktop.getAllFrames())
-	        {
-	            if (frame.getTitle().equals(title))
-	            {
-	            	frame.toFront();
-	            	frame.setSelected(true);
-	            	break;
-	            }
-	        }
+class BringToFrontActionListener implements ActionListener {
+    private JDesktopPane desktop;
+
+    public BringToFrontActionListener(JDesktopPane dtop) {
+        desktop = dtop;
+    }
+
+    public void actionPerformed(ActionEvent ae) {
+        try {
+            String title = ae.getActionCommand();
+            for (JInternalFrame frame : desktop.getAllFrames()) {
+                if (frame.getTitle().equals(title)) {
+                    frame.toFront();
+                    frame.setSelected(true);
+                    break;
+                }
+            }
+        } catch (Exception e) {
         }
-        catch (Exception e)
-        {}
     }
 }

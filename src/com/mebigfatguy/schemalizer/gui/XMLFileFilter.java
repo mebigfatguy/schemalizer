@@ -19,20 +19,17 @@ import java.io.File;
 
 import javax.swing.filechooser.FileFilter;
 
-public class XMLFileFilter extends FileFilter implements java.io.FileFilter
-{
-	@Override
-	public boolean accept(File f)
-	{
-		if (f.isDirectory())
-			return true;
-		
-		return (f.getName().endsWith(".xml"));
-	}
-	
-	@Override
-	public String getDescription()
-	{
-		return "XML Files (*.xml)";
-	}
+public class XMLFileFilter extends FileFilter implements java.io.FileFilter {
+    @Override
+    public boolean accept(File f) {
+        if (f.isDirectory())
+            return true;
+
+        return (f.getName().endsWith(".xml"));
+    }
+
+    @Override
+    public String getDescription() {
+        return "XML Files (*.xml)";
+    }
 }

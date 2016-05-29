@@ -17,17 +17,11 @@ package com.mebigfatguy.schemalizer;
 
 import java.util.Locale;
 
+public class SchemalizerUtils implements SchemalizerConstants {
+    private SchemalizerUtils() {
+    }
 
-public class SchemalizerUtils implements SchemalizerConstants
-{
-	private SchemalizerUtils()
-	{
-	}
-	
-	public static String getSchemaTypeName(String elementName)
-	{
-		return elementName.substring(0,1).toUpperCase(Locale.getDefault()) + 
-				((elementName.length() > 1) ? elementName.substring(1) : "") + 
-				CLASS;
-	}
+    public static String getSchemaTypeName(String elementName) {
+        return elementName.substring(0, 1).toUpperCase(Locale.getDefault()) + ((elementName.length() > 1) ? elementName.substring(1) : "") + CLASS;
+    }
 }

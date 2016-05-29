@@ -18,8 +18,8 @@ package com.mebigfatguy.schemalizer;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
-public interface Validator
-{
-	public boolean isValid(String value);
-	public void addSubElements(Document d, Element group);
+public interface Validator {
+    public boolean isValid(String value);
+
+    public void addSubElements(Document d, Element group);
 }

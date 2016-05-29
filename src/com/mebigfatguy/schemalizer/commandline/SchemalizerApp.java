@@ -25,53 +25,39 @@ import org.w3c.dom.Document;
 import com.mebigfatguy.schemalizer.Schemalizer;
 import com.mebigfatguy.schemalizer.SchemalizerException;
 
+public class SchemalizerApp {
 
-public class SchemalizerApp
-{
+    public static void main(String[] args) {
+        try {
+            Schemalizer sc = new Schemalizer();
+            for (int i = 0; i < args.length; i++) {
+                File f = new File(args[i]);
+                processFile(sc, f);
+            }
 
-	public static void main(String[] args)
-	{
-		try
-		{
-			Schemalizer sc = new Schemalizer();
-			for (int i = 0; i < args.length; i++)
-			{
-				File f = new File(args[i]);
-				processFile(sc, f);
-			}
-			
-			sc.build(System.out);
-		}
-		catch (Exception e)
-		{
-			e.printStackTrace();
-		}
-	}
-	
-	public static void processFile( Schemalizer sc, File f)
-		throws Exception
-	{
-		if (!f.exists())
-			throw new SchemalizerException("Invalid file specified: " + f.getPath());
-		
-		if (f.isDirectory())
-		{
-			File[] files = f.listFiles();
-			for (int i = 0; i < files.length; i++)
-			{
-				if (files[i].isFile() && files[i].getName().endsWith(".xml"))
-				{
-					processFile(sc, files[i]);
-				}
-			}
-		}
-		else
-		{
-			DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
-			dbf.setNamespaceAware(true);
-			DocumentBuilder db = dbf.newDocumentBuilder();
-			Document d = db.parse(f);
-			sc.addSample(d);
-		}
-	}
+            sc.build(System.out);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void processFile(Schemalizer sc, File f) throws Exception {
+        if (!f.exists())
+            throw new SchemalizerException("Invalid file specified: " + f.getPath());
+
+        if (f.isDirectory()) {
+            File[] files = f.listFiles();
+            for (int i = 0; i < files.length; i++) {
+                if (files[i].isFile() && files[i].getName().endsWith(".xml")) {
+                    processFile(sc, files[i]);
+                }
+            }
+        } else {
+            DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+            dbf.setNamespaceAware(true);
+            DocumentBuilder db = dbf.newDocumentBuilder();
+            Document d = db.parse(f);
+            sc.addSample(d);
+        }
+    }
 }

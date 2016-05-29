@@ -17,12 +17,10 @@ package com.mebigfatguy.schemalizer.gui;
 
 import java.util.EventObject;
 
-public class XMLFileClosedEvent extends EventObject
-{
-	private static final long serialVersionUID = -9174068342530349923L;
+public class XMLFileClosedEvent extends EventObject {
+    private static final long serialVersionUID = -9174068342530349923L;
 
-	public XMLFileClosedEvent(Object source)
-	{
-		super(source);
-	}
+    public XMLFileClosedEvent(Object source) {
+        super(source);
+    }
 }

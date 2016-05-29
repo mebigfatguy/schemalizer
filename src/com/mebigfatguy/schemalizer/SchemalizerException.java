@@ -13,25 +13,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
- 
+
 package com.mebigfatguy.schemalizer;
 
-public class SchemalizerException extends Exception
-{	
-	private static final long serialVersionUID = 2756172880993707955L;
+public class SchemalizerException extends Exception {
+    private static final long serialVersionUID = 2756172880993707955L;
 
-	public SchemalizerException(String reason)
-	{
-		super(reason);
-	}
-	
-	public SchemalizerException(String reason, Throwable cause)
-	{
-		super(reason, cause);		
-	}
-	
-    public SchemalizerException(Throwable cause) 
-    {
+    public SchemalizerException(String reason) {
+        super(reason);
+    }
+
+    public SchemalizerException(String reason, Throwable cause) {
+        super(reason, cause);
+    }
+
+    public SchemalizerException(Throwable cause) {
         super(cause);
     }
 }

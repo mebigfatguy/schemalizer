@@ -15,8 +15,6 @@
  */
 package com.mebigfatguy.schemalizer.gui;
 
-public interface XMLFileChangedListener
-{
-	public void fileChanged(XMLFileChangedEvent fce);
+public interface XMLFileChangedListener {
+    public void fileChanged(XMLFileChangedEvent fce);
 }
-

@@ -18,24 +18,20 @@ package com.mebigfatguy.schemalizer;
 import java.util.Iterator;
 import java.util.Set;
 
-public class TypeGraphBuilder
-{	
-	public TypeGraph buildGraph(Set<SchemaTypeSample> typeSamples)
-		throws SchemalizerException
-	{
-		if (typeSamples.isEmpty())
-			throw new SchemalizerException("No samples to build a TypeGraph with");
-		
-		TypeGraph tg = new TypeGraph(typeSamples.iterator().next().getName());
-		Iterator<SchemaTypeSample> it = typeSamples.iterator();
-		while (it.hasNext())
-		{
-			SchemaTypeSample sample = it.next();
-			tg.addAttributes(sample.getAttributes());
-			tg.addValue(sample.getValue());
-			tg.addSubElements(sample.getSubElements());
-		}
-		
-		return tg;
-	}
+public class TypeGraphBuilder {
+    public TypeGraph buildGraph(Set<SchemaTypeSample> typeSamples) throws SchemalizerException {
+        if (typeSamples.isEmpty())
+            throw new SchemalizerException("No samples to build a TypeGraph with");
+
+        TypeGraph tg = new TypeGraph(typeSamples.iterator().next().getName());
+        Iterator<SchemaTypeSample> it = typeSamples.iterator();
+        while (it.hasNext()) {
+            SchemaTypeSample sample = it.next();
+            tg.addAttributes(sample.getAttributes());
+            tg.addValue(sample.getValue());
+            tg.addSubElements(sample.getSubElements());
+        }
+
+        return tg;
+    }
 }

@@ -15,8 +15,6 @@
  */
 package com.mebigfatguy.schemalizer.gui;
 
-public interface XMLFileClosedListener
-{
-	public void fileClosed(XMLFileClosedEvent fce);
+public interface XMLFileClosedListener {
+    public void fileClosed(XMLFileClosedEvent fce);
 }
-

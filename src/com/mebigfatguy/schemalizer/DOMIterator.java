@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
- 
+
 package com.mebigfatguy.schemalizer;
 
 import java.util.ArrayList;
@@ -26,53 +26,43 @@ import org.w3c.dom.Element;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 
-public class DOMIterator implements Iterator<Node>
-{
-	List<Node> nodes = new ArrayList<Node>();
-	
-	public DOMIterator(Document d)
-	{
-		nodes.add(d.getDocumentElement());
-	}
-	
-	public boolean hasNext()
-	{
-		return !nodes.isEmpty();
-	}
-	
-	public Node next()
-		throws NoSuchElementException
-	{
-		if (nodes.isEmpty())
-			throw new NoSuchElementException("No more elements for iterator");
-		
-		Node n = nodes.remove(nodes.size() - 1);
-		if (n instanceof Element)
-		{
-			NamedNodeMap nnm = n.getAttributes();
-			int len = nnm.getLength();
-			for (int i = len-1; i >= 0; i--)
-			{
-				nodes.add(nnm.item(i));
-			}
-			
-			Node child = n.getLastChild();
-			while (child != null)
-			{
-				if (child instanceof Element)
-				{
-					nodes.add(child);
-				}
-				
-				child = child.getPreviousSibling();
-			}
-		}
-		
-		return n;
-	}
-	
-	public void remove()
-	{
-		throw new UnsupportedOperationException();
-	}
+public class DOMIterator implements Iterator<Node> {
+    List<Node> nodes = new ArrayList<Node>();
+
+    public DOMIterator(Document d) {
+        nodes.add(d.getDocumentElement());
+    }
+
+    public boolean hasNext() {
+        return !nodes.isEmpty();
+    }
+
+    public Node next() throws NoSuchElementException {
+        if (nodes.isEmpty())
+            throw new NoSuchElementException("No more elements for iterator");
+
+        Node n = nodes.remove(nodes.size() - 1);
+        if (n instanceof Element) {
+            NamedNodeMap nnm = n.getAttributes();
+            int len = nnm.getLength();
+            for (int i = len - 1; i >= 0; i--) {
+                nodes.add(nnm.item(i));
+            }
+
+            Node child = n.getLastChild();
+            while (child != null) {
+                if (child instanceof Element) {
+                    nodes.add(child);
+                }
+
+                child = child.getPreviousSibling();
+            }
+        }
+
+        return n;
+    }
+
+    public void remove() {
+        throw new UnsupportedOperationException();
+    }
 }

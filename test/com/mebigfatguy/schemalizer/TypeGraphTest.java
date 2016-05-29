@@ -20,24 +20,22 @@ import java.util.List;
 
 import org.junit.Test;
 
-public class TypeGraphTest
-{
+public class TypeGraphTest {
     @Test
-	public void testAddSubElements() throws Exception
-	{
-		TypeGraph tg = new TypeGraph("Test");
-		List<String> els = new ArrayList<String>();
-		els.add("A");
-		els.add("B");
-		tg.addSubElements(els);
-		els.clear();
-		els.add("A");
-		els.add("C");
-		tg.addSubElements(els);
-		els.clear();
-		els.add("C");
-		els.add("D");
-		els.add("E");
-		tg.addSubElements(els);
-	}
+    public void testAddSubElements() throws Exception {
+        TypeGraph tg = new TypeGraph("Test");
+        List<String> els = new ArrayList<String>();
+        els.add("A");
+        els.add("B");
+        tg.addSubElements(els);
+        els.clear();
+        els.add("A");
+        els.add("C");
+        tg.addSubElements(els);
+        els.clear();
+        els.add("C");
+        els.add("D");
+        els.add("E");
+        tg.addSubElements(els);
+    }
 }
