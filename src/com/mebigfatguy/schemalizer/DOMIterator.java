@@ -27,19 +27,22 @@ import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 
 public class DOMIterator implements Iterator<Node> {
-    List<Node> nodes = new ArrayList<Node>();
+    List<Node> nodes = new ArrayList<>();
 
     public DOMIterator(Document d) {
         nodes.add(d.getDocumentElement());
     }
 
+    @Override
     public boolean hasNext() {
         return !nodes.isEmpty();
     }
 
+    @Override
     public Node next() throws NoSuchElementException {
-        if (nodes.isEmpty())
+        if (nodes.isEmpty()) {
             throw new NoSuchElementException("No more elements for iterator");
+        }
 
         Node n = nodes.remove(nodes.size() - 1);
         if (n instanceof Element) {
@@ -62,6 +65,7 @@ public class DOMIterator implements Iterator<Node> {
         return n;
     }
 
+    @Override
     public void remove() {
         throw new UnsupportedOperationException();
     }

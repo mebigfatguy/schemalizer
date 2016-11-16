@@ -54,27 +54,31 @@ public class SimpleTypeInferrer implements SchemalizerConstants {
     }
 
     public Validator findSimpleType() {
-        if (values.isEmpty())
+        if (values.isEmpty()) {
             return new StringValidator();
+        }
 
         Map<String, Validator> validators = getValidators();
 
         Iterator<String> it = values.iterator();
         while (it.hasNext()) {
-            if (validators.size() < 2)
+            if (validators.size() < 2) {
                 break;
+            }
 
             String value = it.next();
             Iterator<Validator> vit = validators.values().iterator();
             while (vit.hasNext()) {
                 Validator v = vit.next();
-                if (!v.isValid(value))
+                if (!v.isValid(value)) {
                     vit.remove();
+                }
             }
         }
 
-        if (validators.isEmpty())
+        if (validators.isEmpty()) {
             return new StringValidator();
+        }
         return validators.values().iterator().next();
     }
 
@@ -83,14 +87,15 @@ public class SimpleTypeInferrer implements SchemalizerConstants {
     }
 
     public String getBaseType(String simpleType) {
-        if (XSD_ENUMERATION.equals(simpleType))
+        if (XSD_ENUMERATION.equals(simpleType)) {
             return XSD_STRING;
+        }
 
         return simpleType;
     }
 
     private Map<String, Validator> getValidators() {
-        Map<String, Validator> validators = new LinkedHashMap<String, Validator>();
+        Map<String, Validator> validators = new LinkedHashMap<>();
         validators.put(XSD_BOOLEAN, new BooleanValidator());
         validators.put(XSD_ANYURI, new AnyURIValidator());
         validators.put(XSD_DATETIME, new DateTimeValidator());
@@ -105,14 +110,18 @@ public class SimpleTypeInferrer implements SchemalizerConstants {
     }
 
     class BaseValidator implements Validator {
+        @Override
         public boolean isValid(String value) {
-            if (value.length() == 0)
+            if (value.length() == 0) {
                 return false;
-            if (!value.trim().equals(value))
+            }
+            if (!value.trim().equals(value)) {
                 return false;
+            }
             return true;
         }
 
+        @Override
         public void addSubElements(Document d, Element group) {
         }
     }
@@ -125,8 +134,9 @@ public class SimpleTypeInferrer implements SchemalizerConstants {
 
         @Override
         public boolean isValid(String value) {
-            if (!super.isValid(value))
+            if (!super.isValid(value)) {
                 return false;
+            }
             try {
                 Integer.parseInt(value);
                 return true;
@@ -144,8 +154,9 @@ public class SimpleTypeInferrer implements SchemalizerConstants {
 
         @Override
         public boolean isValid(String value) {
-            if (!super.isValid(value))
+            if (!super.isValid(value)) {
                 return false;
+            }
             try {
                 Double.parseDouble(value);
                 return true;
@@ -163,8 +174,9 @@ public class SimpleTypeInferrer implements SchemalizerConstants {
 
         @Override
         public boolean isValid(String value) {
-            if (!super.isValid(value))
+            if (!super.isValid(value)) {
                 return false;
+            }
 
             return ("true".equals(value) || "false".equals(value));
         }
@@ -180,8 +192,9 @@ public class SimpleTypeInferrer implements SchemalizerConstants {
 
         @Override
         public boolean isValid(String value) {
-            if (!super.isValid(value))
+            if (!super.isValid(value)) {
                 return false;
+            }
 
             try {
                 df.parse(value);
@@ -202,8 +215,9 @@ public class SimpleTypeInferrer implements SchemalizerConstants {
 
         @Override
         public boolean isValid(String value) {
-            if (!super.isValid(value))
+            if (!super.isValid(value)) {
                 return false;
+            }
 
             try {
                 df.parse(value);
@@ -222,8 +236,9 @@ public class SimpleTypeInferrer implements SchemalizerConstants {
 
         @Override
         public boolean isValid(String value) {
-            if (!super.isValid(value))
+            if (!super.isValid(value)) {
                 return false;
+            }
 
             try {
                 new URL(value);
@@ -235,7 +250,7 @@ public class SimpleTypeInferrer implements SchemalizerConstants {
     }
 
     class LanguageValidator extends BaseValidator {
-        private final Set<String> languages = Collections.unmodifiableSet(new HashSet<String>(Arrays.asList(Locale.getISOLanguages())));
+        private final Set<String> languages = Collections.unmodifiableSet(new HashSet<>(Arrays.asList(Locale.getISOLanguages())));
 
         @Override
         public String toString() {
@@ -244,8 +259,9 @@ public class SimpleTypeInferrer implements SchemalizerConstants {
 
         @Override
         public boolean isValid(String value) {
-            if (!super.isValid(value))
+            if (!super.isValid(value)) {
                 return false;
+            }
 
             return languages.contains(value);
         }
@@ -259,20 +275,25 @@ public class SimpleTypeInferrer implements SchemalizerConstants {
 
         @Override
         public boolean isValid(String value) {
-            if (!super.isValid(value))
+            if (!super.isValid(value)) {
                 return false;
+            }
 
-            if (totalCount < ENUM_SIZE_LIMIT)
+            if (totalCount < ENUM_SIZE_LIMIT) {
                 return false;
+            }
 
             double uniqueRatio = ((double) uniqueCount) / ((double) totalCount);
 
-            if ((uniqueRatio * uniqueCount) > ENUM_RATIO_LIMIT)
+            if ((uniqueRatio * uniqueCount) > ENUM_RATIO_LIMIT) {
                 return false;
+            }
 
-            for (int i = 0; i < value.length(); i++)
-                if (value.charAt(i) < ' ')
+            for (int i = 0; i < value.length(); i++) {
+                if (value.charAt(i) < ' ') {
                     return false;
+                }
+            }
 
             return true;
         }
@@ -302,15 +323,17 @@ public class SimpleTypeInferrer implements SchemalizerConstants {
 
         @Override
         public boolean isValid(String value) {
-            if (!super.isValid(value))
+            if (!super.isValid(value)) {
                 return false;
+            }
 
-            if (totalCount < PATTERN_SIZE_LIMIT)
+            if (totalCount < PATTERN_SIZE_LIMIT) {
                 return false;
+            }
 
             boolean check = true;
             if (pattern == null) {
-                pattern = new ArrayList<Integer>();
+                pattern = new ArrayList<>();
                 check = false;
             }
 
@@ -320,30 +343,33 @@ public class SimpleTypeInferrer implements SchemalizerConstants {
                     char c = value.charAt(i);
                     int category;
                     int type = Character.getType(c);
-                    if ((type == Character.LOWERCASE_LETTER) || (type == Character.UPPERCASE_LETTER) || (type == Character.OTHER_LETTER))
+                    if ((type == Character.LOWERCASE_LETTER) || (type == Character.UPPERCASE_LETTER) || (type == Character.OTHER_LETTER)) {
                         category = CHARACTER;
-                    else if (Character.isDigit(c))
+                    } else if (Character.isDigit(c)) {
                         category = DIGIT;
-                    else if (c == ' ')
+                    } else if (c == ' ') {
                         category = SPACE;
-                    else if ((Character.isWhitespace(c)) || (Character.isISOControl(c)))
+                    } else if ((Character.isWhitespace(c)) || (Character.isISOControl(c))) {
                         return false;
-                    else {
+                    } else {
                         category = c;
                         hasSpecialChar = true;
                     }
 
                     if (check) {
-                        if (category != pattern.get(i).intValue())
+                        if (category != pattern.get(i).intValue()) {
                             return false;
+                        }
                     } else {
                         pattern.add(Integer.valueOf(category));
-                        if (!hasSpecialChar)
+                        if (!hasSpecialChar) {
                             return false;
+                        }
                     }
                 }
-            } else
+            } else {
                 return false;
+            }
 
             return true;
         }
@@ -358,17 +384,19 @@ public class SimpleTypeInferrer implements SchemalizerConstants {
             int count = 0;
             while (it.hasNext()) {
                 int category = it.next().intValue();
-                if (oldCategory == category)
+                if (oldCategory == category) {
                     count++;
-                else {
-                    if (count > 0)
+                } else {
+                    if (count > 0) {
                         addCategoryToPattern(buffer, oldCategory, count);
+                    }
                     count = 1;
                     oldCategory = category;
                 }
             }
-            if (count > 0)
+            if (count > 0) {
                 addCategoryToPattern(buffer, oldCategory, count);
+            }
 
             patternEl.setAttribute(VALUE, buffer.toString());
             group.appendChild(patternEl);
@@ -376,11 +404,11 @@ public class SimpleTypeInferrer implements SchemalizerConstants {
         }
 
         private void addCategoryToPattern(StringBuilder buffer, int category, int count) {
-            if (category == CHARACTER)
+            if (category == CHARACTER) {
                 buffer.append("\\c");
-            else if (category == DIGIT)
+            } else if (category == DIGIT) {
                 buffer.append("\\d");
-            else {
+            } else {
                 switch (category) {
                     case '(':
                     case ')':
