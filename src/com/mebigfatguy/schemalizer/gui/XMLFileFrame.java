@@ -15,13 +15,12 @@
  */
 package com.mebigfatguy.schemalizer.gui;
 
-import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringReader;
 import java.net.URL;
+import java.nio.file.Files;
 import java.text.MessageFormat;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -61,32 +60,37 @@ public class XMLFileFrame extends JInternalFrame {
         super((f == null) ? "" : (f.getName() + " - [" + f.getPath() + "]"), true, true, true, true);
 
         bundle = bdl;
-        if (f == null)
+        if (f == null) {
             setTitle(MessageFormat.format(bundle.getString("schemalizergui.untitled_label"), new Object[] { Integer.valueOf(++frameNo) }));
+        }
 
         setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
-        closeListeners = new HashSet<XMLFileClosedListener>();
+        closeListeners = new HashSet<>();
         changed = false;
         isXSD = false;
         source = f;
         editor = new JEditorPane();
         editor.getDocument().addDocumentListener(new DocumentListener() {
+            @Override
             public void insertUpdate(DocumentEvent de) {
                 changed = true;
             }
 
+            @Override
             public void removeUpdate(DocumentEvent de) {
                 changed = true;
             }
 
+            @Override
             public void changedUpdate(DocumentEvent de) {
                 changed = true;
             }
         });
         getContentPane().add(new JScrollPane(editor));
 
-        if (f != null)
+        if (f != null) {
             editor.setPage(new URL("file:///" + f.getPath()));
+        }
 
         this.addInternalFrameListener(new InternalFrameAdapter() {
             @Override
@@ -106,8 +110,9 @@ public class XMLFileFrame extends JInternalFrame {
             String message = MessageFormat.format(bundle.getString("schemalizergui.savechanges_label"), XMLFileFrame.this.getTitle());
             int choice = JOptionPane.showConfirmDialog(XMLFileFrame.this, message);
             if (choice == JOptionPane.OK_OPTION) {
-                if (source == null)
+                if (source == null) {
                     source = chooseSaveLocation(XMLFileFrame.this.getTitle());
+                }
 
                 if (source != null) {
                     try {
@@ -117,18 +122,21 @@ public class XMLFileFrame extends JInternalFrame {
                         JOptionPane.showMessageDialog(XMLFileFrame.this.getDesktopPane(), ex.getClass().getName() + " " + ex.getMessage());
                     }
                 }
-            } else if (choice == JOptionPane.NO_OPTION)
+            } else if (choice == JOptionPane.NO_OPTION) {
                 dispose();
-        } else
+            }
+        } else {
             dispose();
+        }
     }
 
     protected File chooseSaveLocation(String name) {
         JFileChooser chooser = new JFileChooser();
-        if (isXSD)
+        if (isXSD) {
             name += ".xsd";
-        else
+        } else {
             name += ".xml";
+        }
         chooser.setSelectedFile(new File(System.getProperty("user.dir"), name));
 
         File destFile = null;
@@ -141,8 +149,9 @@ public class XMLFileFrame extends JInternalFrame {
                 if (destFile.exists()) {
                     int ok = JOptionPane.showConfirmDialog(XMLFileFrame.this.getDesktopPane(),
                             MessageFormat.format(bundle.getString("schemalizergui.replacefile_label"), new Object[] { destFile.getPath() }));
-                    if (ok != JOptionPane.YES_OPTION)
+                    if (ok != JOptionPane.YES_OPTION) {
                         option = JFileChooser.ERROR_OPTION;
+                    }
                 }
             }
         } while (option == JFileChooser.ERROR_OPTION);
@@ -151,7 +160,7 @@ public class XMLFileFrame extends JInternalFrame {
     }
 
     protected void saveFile() throws IOException {
-        try (PrintWriter pw = new PrintWriter(new BufferedWriter(new FileWriter(source)))) {
+        try (PrintWriter pw = new PrintWriter(Files.newBufferedWriter(source.toPath()))) {
             pw.print(editor.getText());
             pw.flush();
             changed = false;
@@ -186,12 +195,14 @@ public class XMLFileFrame extends JInternalFrame {
 
     public void fireXMLFileClosed() {
         synchronized (closeListeners) {
-            if (closeListeners.isEmpty())
+            if (closeListeners.isEmpty()) {
                 return;
+            }
             Iterator<XMLFileClosedListener> it = closeListeners.iterator();
             XMLFileClosedEvent closeEvent = new XMLFileClosedEvent(this);
-            while (it.hasNext())
+            while (it.hasNext()) {
                 it.next().fileClosed(closeEvent);
+            }
         }
     }
 
